@@ -1,5 +1,7 @@
 import 'dart:io';
+import 'dart:math';
 
+import 'package:alarm_reminder/model/reminder_model.dart';
 import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -26,18 +28,28 @@ class _CreatePlanState extends State<CreatePlan> {
   String _dateCount = '';
   String _range = '';
   String _rangeCount = '';
-
+  List<DateTime> datelist = [];
+  List<DateTime> getDaysInBetween(DateTime startDate, DateTime endDate) {
+    List<DateTime> days = [];
+    for (int i = 0; i <= endDate.difference(startDate).inDays; i++) {
+      days.add(startDate.add(Duration(days: i)));
+    }
+    return days;
+  }
 
   void _onSelectionChanged(DateRangePickerSelectionChangedArgs args) {
-
+    datelist = [];
     setState(() {
       if (args.value is PickerDateRange) {
+        datelist = getDaysInBetween(
+            args.value.startDate, args.value.endDate ?? args.value.startDate);
         _range = '${DateFormat('dd/MM/yyyy').format(args.value.startDate)} -'
             // ignore: lines_longer_than_80_chars
             ' ${DateFormat('dd/MM/yyyy').format(args.value.endDate ?? args.value.startDate)}';
       } else if (args.value is DateTime) {
         _selectedDate = args.value.toString();
       } else if (args.value is List<DateTime>) {
+        datelist.add(args.value);
         _dateCount = args.value.length.toString();
       } else {
         _rangeCount = args.value.length.toString();
@@ -46,35 +58,19 @@ class _CreatePlanState extends State<CreatePlan> {
   }
 
   List<TimeOfDay> time = [];
+  Reminder reminder = Reminder();
   TextEditingController medicine = TextEditingController();
   TextEditingController des = TextEditingController();
 
-  // void _scheduleOneShotAlarm(chosenDate, oneShotAtTaskId,oneShotAtTaskCallback) async {
-  //
-  //
-  //     await AndroidAlarmManager.oneShotAt(
-  //         chosenDate,
-  //         oneShotAtTaskId,
-  //         oneShotAtTaskCallback,
-  //       alarmClock: true,
-  //       allowWhileIdle: true,
-  //       wakeup: true,
-  //       rescheduleOnReboot: true
-  //
-  //     );
-  //
-  // }
-
-
-@override
+  @override
   void initState() {
     // TODO: implement initState
-  initNotifications();
+    notificationPlugin.init();
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
         appBar: AppBar(
           title: Text('Create Plan'),
@@ -82,15 +78,35 @@ class _CreatePlanState extends State<CreatePlan> {
             IconButton(
               icon: const Icon(Icons.create_new_folder_outlined),
               tooltip: 'Open shopping cart',
-              onPressed: () {
-              if(medicine.text =="" || des.text =="" || time.isEmpty )
-                {
-                  Get.snackbar("Incomplete Information", "Provide all information");
+              onPressed: () async {
+                if (medicine.text == "" || des.text == "" || time.isEmpty) {
+                  Get.snackbar(
+                      "Incomplete Information", "Provide all information");
+                } else {
+                  reminder = Reminder(
+                      title: medicine.text,
+                      desc: des.text,
+                      date: datelist,
+                      time: time);
 
+                  for (var element in datelist) {
+                    for (var time in time) {
+                      try {
+                        await notificationPlugin.showScheduledNotification(
+                          id: Random().nextInt(10000),
+                          title: medicine.text,
+                          body: des.text,
+                          date: DateTime(element.year, element.month,
+                              element.day, time.hour, time.minute),
+                        );
+                      } catch (e) {
+                        print(e);
+                      }
+                    }
+                  }
+
+                  Navigator.of(context).pop();
                 }
-
-
-
               },
             ),
           ],
@@ -104,7 +120,7 @@ class _CreatePlanState extends State<CreatePlan> {
                 label: 'Name of Medicine',
                 type: InputType.text,
                 controller: medicine,
-              validator: (v) => v!.isNotEmpty ? null : "  cannot be blank",
+                validator: (v) => v!.isNotEmpty ? null : "  cannot be blank",
               ),
               Space.Y(20),
               Input.multi(
@@ -112,16 +128,14 @@ class _CreatePlanState extends State<CreatePlan> {
                 type: InputType.text,
                 lines: 2,
                 controller: des,
-                  validator: (v) => v!.isNotEmpty ? null : " cannot be blank",
+                validator: (v) => v!.isNotEmpty ? null : " cannot be blank",
               ),
               Space.Y(20),
               SfDateRangePicker(
                 onSelectionChanged: _onSelectionChanged,
                 selectionMode: DateRangePickerSelectionMode.range,
-                initialSelectedRange: PickerDateRange(
-                    DateTime.now().subtract(const Duration(days: 4)),
+                initialSelectedRange: PickerDateRange(DateTime.now(),
                     DateTime.now().add(const Duration(days: 3))),
-
               ),
               Space.Y(20),
               Text(
@@ -133,16 +147,19 @@ class _CreatePlanState extends State<CreatePlan> {
                   padding: const EdgeInsets.all(8.0),
                   child: Row(
                     children: [
-                      Text(" ${element.hour}:${element.minute} ${element.period.name} ",
+                      Text(
+                        " ${element.hour}:${element.minute} ${element.period.name} ",
                         style: TextStyle(
                             fontWeight: FontWeight.w600, fontSize: 20),
                       ),
                       Spacer(),
-                      IconButton(onPressed: () {
-                        setState(() {
-                          time.remove(element);
-                        });
-                      }, icon: Icon(Icons.delete))
+                      IconButton(
+                          onPressed: () {
+                            setState(() {
+                              time.remove(element);
+                            });
+                          },
+                          icon: Icon(Icons.delete))
                     ],
                   ),
                 ),
@@ -164,15 +181,30 @@ class _CreatePlanState extends State<CreatePlan> {
       initialTime: initialTime,
     );
     setState(() {
-      time.add(
-        pickedTime!
-      );
+      time.add(pickedTime!);
     });
+    _checkPendingNotificationRequests();
   }
 
-  void createAlarm(){
-
+  Future<void> _checkPendingNotificationRequests() async {
+    final List<PendingNotificationRequest> pendingNotificationRequests =
+        await notificationPlugin.localNotificationsPlugin
+            .pendingNotificationRequests();
+    return showDialog<void>(
+      context: context,
+      builder: (BuildContext context) => AlertDialog(
+        content:
+            Text('${pendingNotificationRequests.length} pending notification '
+                'requests'),
+        actions: <Widget>[
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
   }
-
-
 }
