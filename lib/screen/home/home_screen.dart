@@ -46,19 +46,19 @@ class _HomeScreenState extends State<HomeScreen> {
                     children: [
                       const Expanded(
                         child: Text(
-                          'To Take',
+                          'Upcoming',
                           style: TextStyle(
                               fontSize: 27,
                               fontWeight: FontWeight.w900,
                               color: Colors.blue),
                         ),
                       ),
-                      Row(
-                        children: [
-                          buildCustomButton(icon: Icons.chevron_left),
-                          buildCustomButton(icon: Icons.chevron_right)
-                        ],
-                      )
+                      // Row(
+                      //   children: [
+                      //     buildCustomButton(icon: Icons.chevron_left),
+                      //     buildCustomButton(icon: Icons.chevron_right)
+                      //   ],
+                      // )
                     ],
                   ),
                 ),
@@ -76,7 +76,32 @@ class _HomeScreenState extends State<HomeScreen> {
                     ToTakeContainer(),
                     ToTakeContainer(),
                   ],
-                )
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 20),
+                  child: Row(
+                    children: [
+                      const Expanded(
+                        child: Text(
+                          'Past',
+                          style: TextStyle(
+                              fontSize: 27,
+                              fontWeight: FontWeight.w900,
+                              color: Colors.blue),
+                        ),
+                      ),
+                      // Row(
+                      //   children: [
+                      //     buildCustomButton(icon: Icons.chevron_left),
+                      //     buildCustomButton(icon: Icons.chevron_right)
+                      //   ],
+                      // )
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 17,
+                ),
               ],
             ),
           ),
@@ -90,7 +115,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           );
         },
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.blue,
         child: const Icon(
           Icons.add,
           color: Colors.white,
@@ -109,71 +134,267 @@ class ToTakeContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      height: 90,
+
+
       margin: const EdgeInsets.only(right: 20, bottom: 20),
-      padding: const EdgeInsets.only(top: 10, left: 28),
+      padding: const EdgeInsets.only(top: 10, left: 28, bottom: 10, ),
       decoration: BoxDecoration(
+        color: Colors.white,
         borderRadius: BorderRadius.circular(70),
-        boxShadow: [
-          BoxShadow(
-              offset: const Offset(-3, -3),
-              color: Colors.grey.shade400,
-              spreadRadius: 2,
-              blurRadius: 5),
-          const BoxShadow(
-              offset: Offset(3, 3),
-              color: Colors.white,
-              spreadRadius: 3,
-              blurRadius: 3)
-        ],
+
       ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
+      child: Theme(
+      data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+    child:ExpansionTile(
+
+        leading: Icon(Icons.medical_services),
+        title: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Text(
+              'Title',
+              style: TextStyle(
+                  fontSize: 17,
+                  fontWeight: FontWeight.w700,
+                  color: Colors.black),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            const Text(
+              'Description',
+              style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.blue),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+
+          ],
+        ),
         children: [
-          const CircleAvatar(
-            radius: 27,
-            child: Icon(Icons.medical_services),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                '11/22/22',
+                style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.black),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+
+              Row(
+                children: const [
+                  Icon(Icons.alarm, size: 18,),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    '10:00 Am',
+                    style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.blue),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Row(
+                children: const [
+                  Icon(Icons.alarm, size: 18,),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    '10:00 Am',
+                    style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.blue),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Row(
+                children: const [
+                  Icon(Icons.alarm, size: 18,),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    '10:00 Am',
+                    style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.blue),
+                  ),
+                ],
+              ),
+            ],
           ),
           const SizedBox(
-            width: 30,
+            height: 15,
           ),
           Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Text(
-                'Description',
+                '11/22/22',
                 style: TextStyle(
-                    fontSize: 17,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.blue),
+                    fontSize: 14,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.black),
               ),
-              const Text(
-                'Drug name',
-                style: TextStyle(
-                    fontSize: 23,
-                    fontWeight: FontWeight.w900,
-                    color: Colors.blue),
+              const SizedBox(
+                height: 10,
               ),
+
               Row(
                 children: const [
-                  Icon(Icons.alarm),
+                  Icon(Icons.alarm, size: 18,),
                   SizedBox(
                     width: 10,
                   ),
                   Text(
-                    '30:00 pm',
+                    '10:00 Am',
                     style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w900,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.blue),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Row(
+                children: const [
+                  Icon(Icons.alarm, size: 18,),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    '10:00 Am',
+                    style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.blue),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Row(
+                children: const [
+                  Icon(Icons.alarm, size: 18,),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    '10:00 Am',
+                    style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
                         color: Colors.blue),
                   ),
                 ],
               ),
             ],
-          )
-        ],
-      ),
-    );
+          ),
+          const SizedBox(
+            height: 15,
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Text(
+                '11/22/22',
+                style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.black),
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+
+              Row(
+                children: const [
+                  Icon(Icons.alarm, size: 18,),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    '10:00 Am',
+                    style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.blue),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Row(
+                children: const [
+                  Icon(Icons.alarm, size: 18,),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    '10:00 Am',
+                    style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.blue),
+                  ),
+                ],
+              ),
+              const SizedBox(
+                height: 10,
+              ),
+              Row(
+                children: const [
+                  Icon(Icons.alarm, size: 18,),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Text(
+                    '10:00 Am',
+                    style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.blue),
+                  ),
+                ],
+              ),
+            ],
+          ),
+
+          const SizedBox(
+            height: 15,
+          ),
+
+        ]
+      )
+
+
+    ));
   }
 }
