@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 import '../../widget/botton.dart';
 import '../../widget/input.dart';
@@ -18,6 +20,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController password = TextEditingController();
   TextEditingController fname = TextEditingController();
   TextEditingController lname = TextEditingController();
+  bool loading = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -83,7 +86,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         Space.Y(40),
                         Input(
                           label: 'Password',
-                          type: InputType.number,
+                          type: InputType.password,
                           controller: password,
 
                         ),
@@ -92,16 +95,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         Space.Y(22),
                         Press.bold(
                             "Continue",
-                        //    loading: P.auth.loading.value,
+                        loading:loading,
                             onPressed: () {
-                              // if (_key.currentState!.validate()) {
-                              // //  Get.toNamed(Routes.PIN);
-                              // }
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) =>  dashboardScreen(),
-                                ),
-                              );
+                              if (_key.currentState!.validate()) {
+                             createUser();
+                              }
+
                             }),
                         Space.Y(24),
 
@@ -112,5 +111,42 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
               ),
             ),));
+  }
+  createUser() async {
+    setState(() {
+      loading = true;
+    });
+    try {
+      final credential = await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: email.text,
+        password: password.text,
+
+      );
+      await credential.user?.updateDisplayName(fname.text);
+      setState(() {
+        loading = true;
+      });
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) =>  dashboardScreen(user: credential.user ,),
+        ),
+      );
+    } on FirebaseAuthException catch (e) {
+      Get.snackbar(
+          "Error", e.code);
+      setState(() {
+        loading = false;
+      });
+      if (e.code == 'weak-password') {
+        print('The password provided is too weak.');
+      } else if (e.code == 'email-already-in-use') {
+        print('The account already exists for that email.');
+      }
+    } catch (e) {
+      setState(() {
+        loading = false;
+      });
+      print(e);
+    }
   }
 }

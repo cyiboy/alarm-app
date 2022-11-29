@@ -1,12 +1,15 @@
 import 'dart:io';
 import 'dart:math';
 
+import 'package:alarm_reminder/local_stroage_repositroy.dart';
 import 'package:alarm_reminder/model/reminder_model.dart';
+import 'package:alarm_reminder/screen/home/home_screen.dart';
 import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
+import 'package:hive/hive.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
@@ -24,11 +27,13 @@ class CreatePlan extends StatefulWidget {
 }
 
 class _CreatePlanState extends State<CreatePlan> {
+
+  late final ReminderData _localStorageRepository;
   String _selectedDate = '';
   String _dateCount = '';
   String _range = '';
   String _rangeCount = '';
-  List<DateTime> datelist = [];
+  List<DateTime> datelist = [];  List<DateTime> datelists = [];
   List<DateTime> getDaysInBetween(DateTime startDate, DateTime endDate) {
     List<DateTime> days = [];
     for (int i = 0; i <= endDate.difference(startDate).inDays; i++) {
@@ -36,7 +41,12 @@ class _CreatePlanState extends State<CreatePlan> {
     }
     return days;
   }
+  openBox () async{
 
+
+    Box box = await _localStorageRepository.OpenBox();
+
+  }
   void _onSelectionChanged(DateRangePickerSelectionChangedArgs args) {
     datelist = [];
     setState(() {
@@ -65,6 +75,7 @@ class _CreatePlanState extends State<CreatePlan> {
   @override
   void initState() {
     // TODO: implement initState
+    _localStorageRepository = ReminderData();
     notificationPlugin.init();
     super.initState();
   }
@@ -74,6 +85,7 @@ class _CreatePlanState extends State<CreatePlan> {
     return Scaffold(
         appBar: AppBar(
           title: Text('Create Plan'),
+          backgroundColor: Colors.indigo,
           actions: [
             IconButton(
               icon: const Icon(Icons.create_new_folder_outlined),
@@ -83,15 +95,12 @@ class _CreatePlanState extends State<CreatePlan> {
                   Get.snackbar(
                       "Incomplete Information", "Provide all information");
                 } else {
-                  reminder = Reminder(
-                      title: medicine.text,
-                      desc: des.text,
-                      date: datelist,
-                      time: time);
+
 
                   for (var element in datelist) {
                     for (var time in time) {
                       try {
+
                         await notificationPlugin.showScheduledNotification(
                           id: Random().nextInt(10000),
                           title: medicine.text,
@@ -99,13 +108,27 @@ class _CreatePlanState extends State<CreatePlan> {
                           date: DateTime(element.year, element.month,
                               element.day, time.hour, time.minute),
                         );
+                        datelists.add(DateTime(element.year, element.month,
+                            element.day, time.hour, time.minute));
                       } catch (e) {
                         print(e);
                       }
                     }
                   }
+                  reminder = Reminder(
+                    title: medicine.text,
+                    desc: des.text,
+                    date: datelists,
+                  );
+                  Box box = await _localStorageRepository.OpenBox();
+                  _localStorageRepository.addReminder(box, reminder);
 
-                  Navigator.of(context).pop();
+                  Navigator.of(context).pushReplacement(
+                    MaterialPageRoute(
+                      builder: (context) => const HomeScreen()
+                    ),
+                  );
+
                 }
               },
             ),

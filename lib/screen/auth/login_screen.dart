@@ -3,7 +3,8 @@ import 'package:alarm_reminder/screen/auth/signup_screen.dart';
 import 'package:alarm_reminder/screen/dashboard/dashboard_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:get/get.dart';
 import '../../widget/botton.dart';
 import '../../widget/input.dart';
 import '../../widget/space.dart';
@@ -19,7 +20,25 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController email = TextEditingController();
 
   TextEditingController Password = TextEditingController();
-
+  bool loading = false;
+ @override
+  void initState() {
+    // TODO: implement initState
+   FirebaseAuth.instance
+       .authStateChanges()
+       .listen((User? user) {
+     if (user == null) {
+       print('User is currently signed out!');
+     } else {
+       Navigator.of(context).push(
+         MaterialPageRoute(
+           builder: (context) =>  dashboardScreen(user: user,),
+         ),
+       );
+     }
+   });
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -78,16 +97,12 @@ class _LoginScreenState extends State<LoginScreen> {
                     Space.Y(22),
                     Press.bold(
                         "Login",
-                        //loading: P.auth.loading.value,
+                        loading: loading,
                         onPressed: () {
-                          Navigator.of(context).push(
-                            MaterialPageRoute(
-                              builder: (context) =>  dashboardScreen(),
-                            ),
-                          );
-                          // if (_key.currentState!.validate()) {
-                          //  // P.auth.loginController();
-                          // }
+
+                          if (_key.currentState!.validate()) {
+                         loginUser();
+                          }
                         }),
                     Space.Y(24),
                     Row(
@@ -103,23 +118,23 @@ class _LoginScreenState extends State<LoginScreen> {
                               fontWeight: FontWeight.w400,
                             ),
                           ),
-                          GestureDetector(
-                            onTap: (){
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) =>  ResetPassword(),
-                                ),
-                              );
-                            },
-                            child:  Text(
-                              'Rest Password',
-                              style: TextStyle(
-                                fontSize: 14,
-                                color: Colors.black,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          )
+                          // GestureDetector(
+                          //   onTap: (){
+                          //     Navigator.of(context).push(
+                          //       MaterialPageRoute(
+                          //         builder: (context) =>  ResetPassword(),
+                          //       ),
+                          //     );
+                          //   },
+                          //   child:  Text(
+                          //     'Rest Password',
+                          //     style: TextStyle(
+                          //       fontSize: 14,
+                          //       color: Colors.black,
+                          //       fontWeight: FontWeight.w600,
+                          //     ),
+                          //   ),
+                          // )
 
                         ]
                     ),
@@ -172,4 +187,37 @@ class _LoginScreenState extends State<LoginScreen> {
 
 
   }
+    loginUser() async {
+      setState(() {
+        loading = true;
+      });
+      try {
+
+        final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+            email: email.text,
+            password: Password.text
+        );
+        setState(() {
+          loading = false;
+        });
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) =>  dashboardScreen(user: credential.user,),
+          ),
+        );
+      } on FirebaseAuthException catch (e) {
+        Get.snackbar(
+            "Error", e.code);
+        setState(() {
+          loading = false;
+        });
+        if (e.code == 'user-not-found') {
+          print('No user found for that email.');
+        } else if (e.code == 'wrong-password') {
+          print('Wrong password provided for that user.');
+        }else{
+          print(e);
+        }
+      }
+    }
 }

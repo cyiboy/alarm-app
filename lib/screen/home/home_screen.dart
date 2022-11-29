@@ -1,5 +1,11 @@
+import 'package:alarm_reminder/model/reminder_model.dart';
+import 'package:alarm_reminder/widget/space.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:hive/hive.dart';
 
+import '../../local_stroage_repositroy.dart';
 import '../dashboard/widgets/current_date_template.dart';
 import '../dashboard/widgets/custom_appbar.dart';
 import '../dashboard/widgets/custom_round_button.dart';
@@ -14,7 +20,56 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  List<Reminder> reminders = [];
+  bool loading = false;
+  bool areSameDay(DateTime one, DateTime two) {
+    return one.day == two.day && one.month == two.month && one.year == two.year;
+  }
+  int daysBetween(DateTime from, DateTime to) {
+    if(from.difference(to).inHours == 0 ){
+      return from.difference(to).inMinutes;
+    }
+    return from.difference(to).inHours ;
+  }
+  String timeBetween(DateTime from, DateTime to) {
+    if(from.difference(to).inHours == 0 ){
+      return " ${from.difference(to).inMinutes} Min";
+    }
+
+    return " ${from.difference(to).inHours} Hours";
+  }
+  openBox () async{
+    reminders = [];
+   setState(() {
+     loading = true;
+   });
+    Box box = await _localStorageRepository.OpenBox();
+    setState(() {
+      loading = false;
+    });
+    reminders = _localStorageRepository.getAll(box);
+
+  }
+  late final ReminderData _localStorageRepository;
   GlobalKey key = GlobalKey();
+  String Name = "";
+  @override
+  void initState() {
+    // TODO: implement initState
+    _localStorageRepository = ReminderData();
+    openBox();
+    FirebaseAuth.instance
+        .authStateChanges()
+        .listen((User? user) {
+      if (user != null) {
+
+        setState(() {
+          Name = user.displayName??'';
+        });
+      }
+    });
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,86 +77,131 @@ class _HomeScreenState extends State<HomeScreen> {
         child: SingleChildScrollView(
           primary: true,
           child: Padding(
-            padding: const EdgeInsets.only(left: 20),
+            padding: const EdgeInsets.all(  20),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 const SizedBox(
                   height: 10,
                 ),
-                const Padding(
-                  padding: EdgeInsets.only(right: 20),
-                  child: CustomAppBar(),
+                const CircleAvatar(
+                  radius: 24,
+                  child: Icon(Icons.person),
                 ),
                 const SizedBox(
                   height: 20,
                 ),
-                const CurrentDateTemplate(),
+                RichText(
+                  text:  TextSpan(
+                      text: 'Hi, ',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.w500,
+                          fontSize: 18),
+                      children: <TextSpan>[
+                        TextSpan(
+                            text: Name,
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.w500,
+                                fontSize: 18),
+                            children: <TextSpan>[])
+                      ]),
+                ),
+
+
                 const SizedBox(
                   height: 20,
                 ),
+                Text(
+                  'Your Medicines for today',
+                  style: TextStyle(
+                      fontSize: 27,
+                      fontWeight: FontWeight.w900,
+                      color: Colors.black),
+                ),
+               // const CurrentDateTemplate(),
+                Space.Y(25),
+                for(var element in reminders)
+                  for(var elements in element.date!)
+                  if(areSameDay( DateTime.now(),elements))
+                    if(!daysBetween(elements, DateTime.now()).isNegative)
                 Padding(
-                  padding: const EdgeInsets.only(right: 20),
-                  child: Row(
-                    children: [
-                      const Expanded(
-                        child: Text(
-                          'Upcoming',
+                  padding: const EdgeInsets.all(15.0),
+                  child: Container(
+                    width: Get.width,
+
+                    padding: EdgeInsets.all(15),
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: Colors.indigo
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "${elements.hour}:${elements.minute}".padLeft(2, '0'),
                           style: TextStyle(
-                              fontSize: 27,
-                              fontWeight: FontWeight.w900,
-                              color: Colors.blue),
+                              fontSize: 14,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.white),
                         ),
-                      ),
-                      // Row(
-                      //   children: [
-                      //     buildCustomButton(icon: Icons.chevron_left),
-                      //     buildCustomButton(icon: Icons.chevron_right)
-                      //   ],
-                      // )
-                    ],
+                        Space.Y(15),
+                        Row(
+                          children: [
+                            SizedBox(
+                              width: Get.width * 0.5,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Next medicine in ${timeBetween(elements, DateTime.now())}',
+                                    style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.white),
+                                  ),
+                                  Space.Y(15),
+                                  Text(
+                                    element.title!,
+                                    style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w300,
+                                        color: Colors.white),
+                                  ),
+                                  Text(
+                                    element.desc!,
+                                    style: TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w300,
+                                        color: Colors.white),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            Space.X(15),
+                            Icon(Icons.medical_information_sharp, size: 70, color: Colors.white,)
+                          ],
+                        )
+
+                      ],
+                    ) ,
                   ),
                 ),
-                const SizedBox(
-                  height: 17,
-                ),
-                ListView(
-                  primary: false,
-                  shrinkWrap: true,
-                  clipBehavior: Clip.none,
-                  children: const [
-                    ToTakeContainer(),
-                    ToTakeContainer(),
-                    ToTakeContainer(),
-                    ToTakeContainer(),
-                    ToTakeContainer(),
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(right: 20),
-                  child: Row(
-                    children: [
-                      const Expanded(
-                        child: Text(
-                          'Past',
-                          style: TextStyle(
-                              fontSize: 27,
-                              fontWeight: FontWeight.w900,
-                              color: Colors.blue),
-                        ),
-                      ),
-                      // Row(
-                      //   children: [
-                      //     buildCustomButton(icon: Icons.chevron_left),
-                      //     buildCustomButton(icon: Icons.chevron_right)
-                      //   ],
-                      // )
-                    ],
-                  ),
-                ),
-                const SizedBox(
-                  height: 17,
-                ),
+                // ListView(
+                //   primary: false,
+                //   shrinkWrap: true,
+                //   clipBehavior: Clip.none,
+                //   children: const [
+                //     ToTakeContainer(),
+                //     ToTakeContainer(),
+                //     ToTakeContainer(),
+                //     ToTakeContainer(),
+                //     ToTakeContainer(),
+                //   ],
+                // ),
+                //
+
               ],
             ),
           ),
@@ -109,13 +209,13 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.of(context).push(
+          Navigator.of(context).pushReplacement(
             MaterialPageRoute(
               builder: (context) => const CreatePlan(),
             ),
           );
         },
-        backgroundColor: Colors.blue,
+        backgroundColor: Colors.indigo,
         child: const Icon(
           Icons.add,
           color: Colors.white,

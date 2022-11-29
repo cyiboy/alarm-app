@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "10139742683",
+    "project_id": "alarm-reminder-d3307",
+    "storage_bucket": "alarm-reminder-d3307.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:10139742683:android:4e4dff05269c4eec0277fe",
+        "android_client_info": {
+          "package_name": "com.harvoxx.alarm.alarm_reminder"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "10139742683-ro2ejsh67b1tvbl1ve1t9oj8blo6p5im.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyASXK97zCJ3kHqqxvefC3USEhk50DnXp4c"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "10139742683-ro2ejsh67b1tvbl1ve1t9oj8blo6p5im.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

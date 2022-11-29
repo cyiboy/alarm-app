@@ -6,6 +6,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class dashboardScreen extends StatefulWidget {
+  final user;
+
+  const dashboardScreen({super.key,  this.user});
   @override
   _dashboardScreenState createState() => _dashboardScreenState();
 }

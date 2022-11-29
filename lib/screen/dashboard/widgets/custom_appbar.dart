@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class CustomAppBar extends StatelessWidget {
-  const CustomAppBar({
+  String name;
+    CustomAppBar({
+    required this.name,
     Key? key,
   }) : super(key: key);
 
@@ -23,15 +25,15 @@ class CustomAppBar extends StatelessWidget {
             child: Row(
               children: [
                 RichText(
-                  text: const TextSpan(
-                      text: 'Hi,',
+                  text:  TextSpan(
+                      text: 'Hi, ',
                       style: TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.w400,
                           fontSize: 15),
                       children: <TextSpan>[
                         TextSpan(
-                            text: ' Kay',
+                            text: name,
                             style: TextStyle(
                                 color: Colors.black,
                                 fontWeight: FontWeight.w900,
