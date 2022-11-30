@@ -58,7 +58,7 @@ class _InputState extends State<Input> {
           ? TextInputType.emailAddress
           : widget.type == InputType.number
           ? TextInputType.number
-          : TextInputType.datetime,
+          : TextInputType.text,
       inputFormatters: widget.type == InputType.number
           ? [FilteringTextInputFormatter.digitsOnly]
           : [],

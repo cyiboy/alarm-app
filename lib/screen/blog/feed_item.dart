@@ -28,9 +28,9 @@ padding: EdgeInsets.all(10),
           children: [
             ListTile(
 
-              leading: FlutterLogo(size: 30,),
+              leading: Image.asset('assets/img/logo.png', width: 30, height: 30,),
               title:  Text(
-                'Admin',
+                'Medring+',
 
                 style: TextStyle(
                     fontSize: 15, fontWeight: FontWeight.w600, color: Colors.black),

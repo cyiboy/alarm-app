@@ -16,7 +16,7 @@ class Press extends StatelessWidget {
       {this.onPressed,
         this.loading = false,
         this.foreground = Colors.white,
-        this.background = const Color(0xFF005C8E)});
+        this.background =   Colors.indigo});
 
   Press.dark(this.title, {this.onPressed, this.loading = false})
       : background = const Color(0xFF4B9FDD),

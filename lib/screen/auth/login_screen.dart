@@ -44,107 +44,109 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       body:
-   Form(
-        key: _key,
-        child: Container(
-          child: Padding(
-            padding: const EdgeInsets.only(top: 20.0, left: 20, right: 20),
+   SingleChildScrollView(
+     child: Form(
+          key: _key,
+          child: Container(
+            child: Padding(
+              padding: const EdgeInsets.only(top: 20.0, left: 20, right: 20),
 
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Space.Y(115),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Space.Y(115),
 
 
-                Text(
-                  'Welcome to  Alarm Reminder!',
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.black,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                Space.Y(9),
-                Text(
-                  'Complete your details below',
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.black,
-                    fontWeight: FontWeight.w400,
-                  ),
-                ),
-                Space.Y(48),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Input(
-                      label: 'Email address',
-                      type: InputType.email,
-                      controller: email,
-                  //    validator: (v) => v!.isEmail ? null : "Email is poorly formatted",
+                  Text(
+                    'Welcome to  Alarm Reminder!',
+                    style: TextStyle(
+                      fontSize: 20,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w600,
                     ),
-                    Space.Y(40),
-                    Input(
-                      label: 'Password',
-                      type: InputType.password,
-                      controller: Password,
-                      validator: (v) => v!.isNotEmpty ? null : "Password cannot be blank",
+                  ),
+                  Space.Y(9),
+                  Text(
+                    'Complete your details below',
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: Colors.black,
+                      fontWeight: FontWeight.w400,
                     ),
-                    Space.Y(40),
+                  ),
+                  Space.Y(48),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Input(
+                        label: 'Email address',
+                        type: InputType.email,
+                        controller: email,
+                    //    validator: (v) => v!.isEmail ? null : "Email is poorly formatted",
+                      ),
+                      Space.Y(40),
+                      Input(
+                        label: 'Password',
+                        type: InputType.password,
+                        controller: Password,
+                        validator: (v) => v!.isNotEmpty ? null : "Password cannot be blank",
+                      ),
+                      Space.Y(40),
 
-                    Space.Y(22),
-                    Press.bold(
-                        "Login",
-                        loading: loading,
-                        onPressed: () {
+                      Space.Y(22),
+                      Press.bold(
+                          "Login",
+                          loading: loading,
+                          onPressed: () {
 
-                          if (_key.currentState!.validate()) {
-                         loginUser();
-                          }
-                        }),
-                    Space.Y(24),
-                    Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
+                            if (_key.currentState!.validate()) {
+                           loginUser();
+                            }
+                          }),
+                      Space.Y(24),
+                      Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
 
-                          Text(
-                            'Forget Password?',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: Colors.black,
-                              fontWeight: FontWeight.w400,
+                            Text(
+                              'Forget Password?',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.black,
+                                fontWeight: FontWeight.w400,
+                              ),
                             ),
-                          ),
-                          // GestureDetector(
-                          //   onTap: (){
-                          //     Navigator.of(context).push(
-                          //       MaterialPageRoute(
-                          //         builder: (context) =>  ResetPassword(),
-                          //       ),
-                          //     );
-                          //   },
-                          //   child:  Text(
-                          //     'Rest Password',
-                          //     style: TextStyle(
-                          //       fontSize: 14,
-                          //       color: Colors.black,
-                          //       fontWeight: FontWeight.w600,
-                          //     ),
-                          //   ),
-                          // )
+                            // GestureDetector(
+                            //   onTap: (){
+                            //     Navigator.of(context).push(
+                            //       MaterialPageRoute(
+                            //         builder: (context) =>  ResetPassword(),
+                            //       ),
+                            //     );
+                            //   },
+                            //   child:  Text(
+                            //     'Rest Password',
+                            //     style: TextStyle(
+                            //       fontSize: 14,
+                            //       color: Colors.black,
+                            //       fontWeight: FontWeight.w600,
+                            //     ),
+                            //   ),
+                            // )
 
-                        ]
-                    ),
-                  ],
-                ),
-              ],
+                          ]
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
           ),
         ),
-      ),
+   ),
 
     bottomSheet: Container(
       height: 100,

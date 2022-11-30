@@ -137,7 +137,9 @@ class _CreatePlanState extends State<CreatePlan> {
         body: Padding(
           padding: EdgeInsets.all(15),
           child: SingleChildScrollView(
-            child: Column(children: [
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
               Space.Y(20),
               Input(
                 label: 'Name of Medicine',
@@ -165,6 +167,7 @@ class _CreatePlanState extends State<CreatePlan> {
                 'Select Time',
                 style: TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
               ),
+                  Space.Y(10),
               for (var element in time)
                 Padding(
                   padding: const EdgeInsets.all(8.0),

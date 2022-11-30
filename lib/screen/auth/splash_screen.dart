@@ -38,10 +38,8 @@ class _SplashState extends State<Splash> {
     return Scaffold(
       body: Center(
         child: Container(
-            child: FlutterLogo(
-              size: 100,
-            )),
+            child:  Image.asset('assets/img/logo.png', width: 100, height: 100,)
       ),
-    );
+    ));
   }
 }
