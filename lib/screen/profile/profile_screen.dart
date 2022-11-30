@@ -4,6 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
@@ -13,6 +14,22 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  String Name ="";
+  @override
+  void initState() {
+    // TODO: implement initState
+    FirebaseAuth.instance
+        .authStateChanges()
+        .listen((User? user) {
+      if (user != null) {
+
+        setState(() {
+          Name = user.displayName??'';
+        });
+      }
+    });
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -22,12 +39,36 @@ class _ProfileScreenState extends State<ProfileScreen> {
           SizedBox(
             height: 50 ,
           ),
-          Text(
-            "Setting",
-            style: TextStyle(
-                fontSize: 16,
-                fontWeight: FontWeight.w600,
-                color: Colors.black),
+
+          const CircleAvatar(
+            radius: 40,
+            backgroundColor: Colors.indigo,
+            child: Icon(Icons.person, ),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          RichText(
+            text:  TextSpan(
+                text: '',
+                style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.w500,
+                    fontSize: 18),
+                children: <TextSpan>[
+                  TextSpan(
+                      text: Name,
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.w700,
+                          fontSize: 30),
+                      children: <TextSpan>[])
+                ]),
+          ),
+
+
+          const SizedBox(
+            height: 20,
           ),
           SizedBox(
             height: 50 ,
@@ -36,19 +77,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               ProfileItem(icon: Icons.star_rate, title: 'Rate App'),
-              ProfileItem(icon: Icons.notification_add, title: 'Notifications'),
+              GestureDetector(
+                  onTap: (){
+                    _launchCaller();
+                  },
+                  child: ProfileItem(icon: Icons.call, title: 'Contact Support')),
             ],
           ),
-          SizedBox(
-            height: 50 ,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              ProfileItem(icon: Icons.call, title: 'Contact Support'),
 
-            ],
-          ),
           SizedBox(
             height: Get.height *0.3 ,
 
@@ -74,5 +110,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ],
       ),
     );
+  }
+  _launchCaller() async {
+
+ 
+    final Uri launchUri = Uri(
+      scheme: 'tel',
+      path: '+2348062627549',
+    );
+    await launchUrl(launchUri);
   }
 }

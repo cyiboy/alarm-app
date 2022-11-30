@@ -180,7 +180,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               ),
                             ),
                             Space.X(15),
-                            Icon(Icons.medical_information_sharp, size: 70, color: Colors.white,)
+                            Icon(Icons.medical_information_sharp, size: Get.width *0.2, color: Colors.white,)
                           ],
                         )
 

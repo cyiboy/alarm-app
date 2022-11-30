@@ -1,7 +1,10 @@
 import 'package:alarm_reminder/screen/blog/blog_details.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:hive/hive.dart';
 
+import '../../local_stroage_repositroy.dart';
 import '../../widget/space.dart';
 
 class FeedItem extends StatelessWidget {
@@ -9,7 +12,7 @@ class FeedItem extends StatelessWidget {
   final head;
   DateTime date;
   FeedItem({Key? key, this.body, this.head, required this.date}) : super(key: key);
-
+ final ReminderData _localStorageRepository = ReminderData();
   @override
   Widget build(BuildContext context) {
 
@@ -41,8 +44,12 @@ padding: EdgeInsets.all(10),
                     fontSize: 10, fontWeight: FontWeight.w500, color: Colors.black.withOpacity(0.5)),
               ),
               trailing: IconButton(
-                icon: Icon(Icons.more_horiz_outlined, color: Colors.black,),
-                onPressed: (){},
+                icon: Icon(Icons.bookmark, color: Colors.black,),
+                onPressed: () async {
+                  Box box = await _localStorageRepository.OpenSaveBox();
+                  _localStorageRepository.addSave(box,head,body);
+                  Get.snackbar("Saved", 'News Saved to bookmarks');
+                },
               ),
             ),
 

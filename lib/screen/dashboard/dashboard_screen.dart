@@ -5,6 +5,8 @@ import 'package:dot_navigation_bar/dot_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../bookmarked/bookmark.dart';
+
 class dashboardScreen extends StatefulWidget {
   final user;
 
@@ -34,13 +36,13 @@ class _dashboardScreenState extends State<dashboardScreen> {
             _currentIndex = index;
           });
         },
-        children: <Widget>[HomeScreen(), BlogScreen(), ProfileScreen()],
+        children: <Widget>[HomeScreen(), BlogScreen(), Bookmark(), ProfileScreen()],
       ),
       bottomNavigationBar: DotNavigationBar(
         currentIndex: _currentIndex,
         enableFloatingNavBar: false,
         unselectedItemColor: Colors.grey,
-        selectedItemColor: Colors.black,
+        selectedItemColor: Colors.indigo,
         curve: Curves.bounceIn,
         onTap: (index) {
           setState(() => _currentIndex = index);
@@ -52,6 +54,9 @@ class _dashboardScreenState extends State<dashboardScreen> {
               icon: Icon(Icons.history_toggle_off), unselectedColor: Colors.grey),
           DotNavigationBarItem(
               icon: Icon(Icons.newspaper),
+              unselectedColor: Colors.grey),
+          DotNavigationBarItem(
+              icon: Icon(Icons.bookmark),
               unselectedColor: Colors.grey),
           DotNavigationBarItem(
               icon: Icon(Icons.person), unselectedColor: Colors.grey),

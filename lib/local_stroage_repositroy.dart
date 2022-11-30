@@ -3,7 +3,11 @@ import 'package:hive/hive.dart';
 
 abstract class BaseLocalStorageRepository {
   Future<Box> OpenBox();
+  Future<Box> OpenSaveBox();
+  List getSaveAll(Box box);
   List<Reminder> getAll(Box box);
+  Future<void > addSave(Box box, String head, String body);
+
   Future<void > addReminder(Box box, Reminder reminder);
   Future<void > removeProductFromCart(Box box, Reminder reminder);
 
@@ -41,6 +45,25 @@ class ReminderData extends BaseLocalStorageRepository{
   Future<void> removeProductFromCart(Box box, Reminder reminder) async {
     // TODO: implement removeProductFromCart
     await box.delete(reminder.desc);
+  }
+
+  @override
+  Future<Box> OpenSaveBox() async {
+    Box box = await Hive.openBox('saved');
+    return box;
+  }
+
+  @override
+  Future<void> addSave(Box box, String head, String body) async {
+    await box.put(head,  {
+        "head":head,
+        "body":body
+    });
+  }
+
+  @override
+  List getSaveAll(Box box) {
+    return box.values.toList();
   }
 
 }

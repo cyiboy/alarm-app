@@ -4,7 +4,7 @@ import 'dart:math';
 import 'package:alarm_reminder/local_stroage_repositroy.dart';
 import 'package:alarm_reminder/model/reminder_model.dart';
 import 'package:alarm_reminder/screen/home/home_screen.dart';
-import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
@@ -18,6 +18,7 @@ import '../../widget/botton.dart';
 import '../../widget/datepicker.dart';
 import '../../widget/input.dart';
 import '../../widget/space.dart';
+import '../dashboard/dashboard_screen.dart';
 
 class CreatePlan extends StatefulWidget {
   const CreatePlan({Key? key}) : super(key: key);
@@ -125,7 +126,7 @@ class _CreatePlanState extends State<CreatePlan> {
 
                   Navigator.of(context).pushReplacement(
                     MaterialPageRoute(
-                      builder: (context) => const HomeScreen()
+                      builder: (context) => const dashboardScreen()
                     ),
                   );
 
@@ -209,7 +210,7 @@ class _CreatePlanState extends State<CreatePlan> {
     setState(() {
       time.add(pickedTime!);
     });
-    _checkPendingNotificationRequests();
+
   }
 
   Future<void> _checkPendingNotificationRequests() async {
