@@ -27,7 +27,7 @@ class NotificationPlugin {
       requestSoundPermission: false,
     );
     const AndroidInitializationSettings initializationSettingsAndroid =
-        AndroidInitializationSettings('app_icon');
+        AndroidInitializationSettings('app_icons');
     var initializeAndroid = initializationSettingsAndroid;
     var initializeIOS = initializationSettingsDarwin;
     var initializationSettings = InitializationSettings(
