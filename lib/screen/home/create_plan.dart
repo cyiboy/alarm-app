@@ -103,7 +103,7 @@ class _CreatePlanState extends State<CreatePlan> {
                       try {
 
                         await notificationPlugin.showScheduledNotification(
-                          id: Random().nextInt(10000),
+                          id: Random().nextInt(100),
                           title: medicine.text,
                           body: des.text,
                           date: DateTime(element.year, element.month,
