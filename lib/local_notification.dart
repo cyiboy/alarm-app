@@ -62,7 +62,7 @@ class NotificationPlugin {
         channelDescription: 'your channel description',
         importance: Importance.max,
         priority: Priority.high,
-        icon: "launcher_icon",
+        icon: "mipmap/launcher_icon",
         ticker: 'ticker');
 
     var iosChannelSpecifics = DarwinNotificationDetails(
