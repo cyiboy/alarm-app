@@ -19,7 +19,7 @@ class NotificationPlugin {
     initializePlatformSpecifics();
   }
 
-  initializePlatformSpecifics() {
+  initializePlatformSpecifics() async {
     final DarwinInitializationSettings initializationSettingsDarwin =
         DarwinInitializationSettings(
       requestAlertPermission: false,
@@ -28,15 +28,16 @@ class NotificationPlugin {
     );
     const AndroidInitializationSettings initializationSettingsAndroid =
         AndroidInitializationSettings('app_icon');
+    var initializeAndroid = initializationSettingsAndroid;
+    var initializeIOS = initializationSettingsDarwin;
+    var initializationSettings = InitializationSettings(
+        android: initializeAndroid, iOS: initializeIOS);
 
-    void initNotifications() async {
-      var initializeAndroid = initializationSettingsAndroid;
-      var initializeIOS = initializationSettingsDarwin;
-      var initializationSettings = InitializationSettings(
-          android: initializeAndroid, iOS: initializeIOS);
+    await localNotificationsPlugin.initialize(initializationSettings);
 
-      await localNotificationsPlugin.initialize(initializationSettings);
-    }
+  }
+  void initNotifications() async {
+
   }
 
   _requestIOSPermission() {
