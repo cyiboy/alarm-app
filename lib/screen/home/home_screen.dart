@@ -126,9 +126,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
                // const CurrentDateTemplate(),
                 Space.Y(25),
-                Row(
-                  children: [
 
+                for(var element in reminders)
+                  for(var elements in element.date!)
+                  if(areSameDay( DateTime.now(),elements))
+                    if(!daysBetween(elements, DateTime.now()).isNegative)
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
                     Text(
                       'upcomming',
                       style: TextStyle(
@@ -136,155 +141,152 @@ class _HomeScreenState extends State<HomeScreen> {
                           fontWeight: FontWeight.w900,
                           color: Colors.black),
                     ),
-                  ],
-                ),
-                Space.Y(15),
-                for(var element in reminders)
-                  for(var elements in element.date!)
-                  if(areSameDay( DateTime.now(),elements))
-                    if(!daysBetween(elements, DateTime.now()).isNegative)
-                Padding(
-                  padding: const EdgeInsets.all(15.0),
-                  child: Container(
-                    width: Get.width,
+                    Space.Y(15),
+                    Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: Container(
+                        width: Get.width,
 
-                    padding: EdgeInsets.all(15),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      color: Colors.indigo
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "${elements.hour}:${elements.minute}".padLeft(2, '0'),
-                          style: TextStyle(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w400,
-                              color: Colors.white),
+                        padding: EdgeInsets.all(15),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: Colors.indigo
                         ),
-                        Space.Y(15),
-                        Row(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            SizedBox(
-                              width: Get.width * 0.4,
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Next medicine in ${timeBetween(elements, DateTime.now())}',
-                                    style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.w500,
-                                        color: Colors.white),
-                                  ),
-                                  Space.Y(15),
-                                  Text(
-                                    "Drug: " + element.title!,
-                                    style: TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.w600,
-                                        color: Colors.white),
-                                  ),
-                                  Space.Y(5),
-                                  Text(
-                                    "Desc: " +  element.desc!,
-                                    style: TextStyle(
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w300,
-                                        color: Colors.white),
-                                  ),
-                                ],
-                              ),
+                            Text(
+                              "${elements.hour}:${elements.minute}".padLeft(2, '0'),
+                              style: TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w400,
+                                  color: Colors.white),
                             ),
-                            Space.X(15),
-                            Icon(Icons.medical_information_sharp, size: Get.width *0.2, color: Colors.white,)
+                            Space.Y(15),
+                            Row(
+                              children: [
+                                SizedBox(
+                                  width: Get.width * 0.4,
+                                  child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Next medicine in ${timeBetween(elements, DateTime.now())}',
+                                        style: TextStyle(
+                                            fontSize: 18,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.white),
+                                      ),
+                                      Space.Y(15),
+                                      Text(
+                                        "Drug: " + element.title!,
+                                        style: TextStyle(
+                                            fontSize: 16,
+                                            fontWeight: FontWeight.w600,
+                                            color: Colors.white),
+                                      ),
+                                      Space.Y(5),
+                                      Text(
+                                        element.desc!,
+                                        style: TextStyle(
+                                            fontSize: 12,
+                                            fontWeight: FontWeight.w300,
+                                            color: Colors.white),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                Space.X(15),
+                                Icon(Icons.medical_information_sharp, size: Get.width *0.2, color: Colors.white,)
+                              ],
+                            )
+
                           ],
-                        )
-
-                      ],
-                    ) ,
-                  ),
-                ),
-                Row(
-                  children: [
-
-                    Text(
-                      'Past',
-                      style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w900,
-                          color: Colors.black),
+                        ) ,
+                      ),
                     ),
                   ],
                 ),
-                Space.Y(15),
+
                 for(var element in reminders)
                   for(var elements in element.date!)
                     if(areSameDay( DateTime.now(),elements))
                       if(daysBetween(elements, DateTime.now()).isNegative)
-                        Padding(
-                          padding: const EdgeInsets.all(15.0),
-                          child: Container(
-                            width: Get.width,
-
-                            padding: EdgeInsets.all(15),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                color: Colors.indigo
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'Past',
+                              style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w900,
+                                  color: Colors.black),
                             ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "${elements.hour}:${elements.minute}".padLeft(2, '0'),
-                                  style: TextStyle(
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.w400,
-                                      color: Colors.white),
-                                ),
-                                Space.Y(15),
-                                Row(
-                                  children: [
-                                    SizedBox(
-                                      width: Get.width * 0.4,
-                                      child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            'Medicine was to be taken at '+  "${elements.hour}:${elements.minute}".padLeft(2, '0'),
-                                            style: TextStyle(
-                                                fontSize: 18,
-                                                fontWeight: FontWeight.w500,
-                                                color: Colors.white),
-                                          ),
-                                          Space.Y(15),
-                                          Text(
-                                           "Drug: " + element.title!,
-                                            style: TextStyle(
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w600,
-                                                color: Colors.white),
-                                          ),
-                                          Space.Y(5),
-                                          Text(
-                                            "Desc: " +   element.desc!,
-                                            style: TextStyle(
-                                                fontSize: 12,
-                                                fontWeight: FontWeight.w300,
-                                                color: Colors.white),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Space.X(15),
-                                    Icon(Icons.medical_information_sharp, size: Get.width *0.2, color: Colors.white,)
-                                  ],
-                                )
+                            Space.Y(15),
+                            Padding(
+                              padding: const EdgeInsets.all(15.0),
+                              child: Container(
+                                width: Get.width,
 
-                              ],
-                            ) ,
-                          ),
+                                padding: EdgeInsets.all(15),
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(20),
+                                    color: Colors.indigo
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      "${elements.hour}:${elements.minute}".padLeft(2, '0'),
+                                      style: TextStyle(
+                                          fontSize: 13,
+                                          fontWeight: FontWeight.w400,
+                                          color: Colors.white),
+                                    ),
+                                    Space.Y(15),
+                                    Row(
+                                      children: [
+                                        SizedBox(
+                                          width: Get.width * 0.4,
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                'Medicine was to be taken at '+  "${elements.hour}:${elements.minute}".padLeft(2, '0'),
+                                                style: TextStyle(
+                                                    fontSize: 18,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Colors.white),
+                                              ),
+                                              Space.Y(15),
+                                              Text(
+                                               "Drug: " + element.title!,
+                                                style: TextStyle(
+                                                    fontSize: 16,
+                                                    fontWeight: FontWeight.w600,
+                                                    color: Colors.white),
+                                              ),
+                                              Space.Y(5),
+                                              Text(
+                                                "Desc: " +   element.desc!,
+                                                style: TextStyle(
+                                                    fontSize: 12,
+                                                    fontWeight: FontWeight.w300,
+                                                    color: Colors.white),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        Space.X(15),
+                                        Icon(Icons.medical_information_sharp, size: Get.width *0.2, color: Colors.white,)
+                                      ],
+                                    )
+
+                                  ],
+                                ) ,
+                              ),
+                            ),
+                          ],
                         ),
 
               ],

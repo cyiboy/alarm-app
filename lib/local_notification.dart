@@ -59,12 +59,12 @@ class NotificationPlugin {
   Future<void> showNotification(
       {required int id, required String title, required String body}) async {
     var androidChannelSpecifics = AndroidNotificationDetails(
-        'your channel id', 'your channel name',
-        channelDescription: 'your channel description',
+        'your channel  ', 'your channel  ',
+        channelDescription: 'your channel ',
         importance: Importance.max,
         priority: Priority.max,
         playSound: true,
-        sound:  const UriAndroidNotificationSound("assets/img/sound.mp3"),
+        sound: RawResourceAndroidNotificationSound('sound'),
         icon: "app_icons",
         ticker: 'ticker');
 
