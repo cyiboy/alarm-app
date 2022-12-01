@@ -62,7 +62,7 @@ class NotificationPlugin {
         'your channel id', 'your channel name',
         channelDescription: 'your channel description',
         importance: Importance.max,
-        priority: Priority.high,
+        priority: Priority.max,
         icon: "app_icons",
         ticker: 'ticker');
 

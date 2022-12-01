@@ -142,7 +142,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         Text(
                           "${elements.hour}:${elements.minute}".padLeft(2, '0'),
                           style: TextStyle(
-                              fontSize: 14,
+                              fontSize: 13,
                               fontWeight: FontWeight.w400,
                               color: Colors.white),
                         ),
@@ -150,7 +150,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         Row(
                           children: [
                             SizedBox(
-                              width: Get.width * 0.5,
+                              width: Get.width * 0.4,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -166,9 +166,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                     element.title!,
                                     style: TextStyle(
                                         fontSize: 16,
-                                        fontWeight: FontWeight.w300,
+                                        fontWeight: FontWeight.w600,
                                         color: Colors.white),
                                   ),
+                                  Space.Y(5),
                                   Text(
                                     element.desc!,
                                     style: TextStyle(
