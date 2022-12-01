@@ -63,6 +63,8 @@ class NotificationPlugin {
         channelDescription: 'your channel description',
         importance: Importance.max,
         priority: Priority.max,
+        playSound: true,
+        sound:  const UriAndroidNotificationSound("assets/img/sound.mp3"),
         icon: "app_icons",
         ticker: 'ticker');
 

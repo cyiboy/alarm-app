@@ -84,6 +84,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 const SizedBox(
                   height: 10,
                 ),
+               SizedBox(
+                  width: Get.width,
+                ),
                 const CircleAvatar(
                   radius: 24,
                   child: Icon(Icons.person),
@@ -120,8 +123,22 @@ class _HomeScreenState extends State<HomeScreen> {
                       fontWeight: FontWeight.w900,
                       color: Colors.black),
                 ),
+
                // const CurrentDateTemplate(),
                 Space.Y(25),
+                Row(
+                  children: [
+
+                    Text(
+                      'upcomming',
+                      style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w900,
+                          color: Colors.black),
+                    ),
+                  ],
+                ),
+                Space.Y(15),
                 for(var element in reminders)
                   for(var elements in element.date!)
                   if(areSameDay( DateTime.now(),elements))
@@ -189,19 +206,86 @@ class _HomeScreenState extends State<HomeScreen> {
                     ) ,
                   ),
                 ),
-                // ListView(
-                //   primary: false,
-                //   shrinkWrap: true,
-                //   clipBehavior: Clip.none,
-                //   children: const [
-                //     ToTakeContainer(),
-                //     ToTakeContainer(),
-                //     ToTakeContainer(),
-                //     ToTakeContainer(),
-                //     ToTakeContainer(),
-                //   ],
-                // ),
-                //
+                Row(
+                  children: [
+
+                    Text(
+                      'Past',
+                      style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w900,
+                          color: Colors.black),
+                    ),
+                  ],
+                ),
+                Space.Y(15),
+                for(var element in reminders)
+                  for(var elements in element.date!)
+                    if(areSameDay( DateTime.now(),elements))
+                      if(daysBetween(elements, DateTime.now()).isNegative)
+                        Padding(
+                          padding: const EdgeInsets.all(15.0),
+                          child: Container(
+                            width: Get.width,
+
+                            padding: EdgeInsets.all(15),
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(20),
+                                color: Colors.indigo
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "${elements.hour}:${elements.minute}".padLeft(2, '0'),
+                                  style: TextStyle(
+                                      fontSize: 13,
+                                      fontWeight: FontWeight.w400,
+                                      color: Colors.white),
+                                ),
+                                Space.Y(15),
+                                Row(
+                                  children: [
+                                    SizedBox(
+                                      width: Get.width * 0.4,
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            'Next medicine in ${timeBetween(elements, DateTime.now())}',
+                                            style: TextStyle(
+                                                fontSize: 18,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.white),
+                                          ),
+                                          Space.Y(15),
+                                          Text(
+                                            element.title!,
+                                            style: TextStyle(
+                                                fontSize: 16,
+                                                fontWeight: FontWeight.w600,
+                                                color: Colors.white),
+                                          ),
+                                          Space.Y(5),
+                                          Text(
+                                            element.desc!,
+                                            style: TextStyle(
+                                                fontSize: 12,
+                                                fontWeight: FontWeight.w300,
+                                                color: Colors.white),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Space.X(15),
+                                    Icon(Icons.medical_information_sharp, size: Get.width *0.2, color: Colors.white,)
+                                  ],
+                                )
+
+                              ],
+                            ) ,
+                          ),
+                        ),
 
               ],
             ),
