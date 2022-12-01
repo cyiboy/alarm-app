@@ -180,7 +180,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                   Space.Y(15),
                                   Text(
-                                    element.title!,
+                                    "Drug: " + element.title!,
                                     style: TextStyle(
                                         fontSize: 16,
                                         fontWeight: FontWeight.w600,
@@ -188,7 +188,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                   Space.Y(5),
                                   Text(
-                                    element.desc!,
+                                    "Desc: " +  element.desc!,
                                     style: TextStyle(
                                         fontSize: 12,
                                         fontWeight: FontWeight.w300,
@@ -252,7 +252,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
                                           Text(
-                                            'Next medicine in ${timeBetween(elements, DateTime.now())}',
+                                            'Medicine was to be taken at '+  "${elements.hour}:${elements.minute}".padLeft(2, '0'),
                                             style: TextStyle(
                                                 fontSize: 18,
                                                 fontWeight: FontWeight.w500,
@@ -260,7 +260,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           ),
                                           Space.Y(15),
                                           Text(
-                                            element.title!,
+                                           "Drug: " + element.title!,
                                             style: TextStyle(
                                                 fontSize: 16,
                                                 fontWeight: FontWeight.w600,
@@ -268,7 +268,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                           ),
                                           Space.Y(5),
                                           Text(
-                                            element.desc!,
+                                            "Desc: " +   element.desc!,
                                             style: TextStyle(
                                                 fontSize: 12,
                                                 fontWeight: FontWeight.w300,
