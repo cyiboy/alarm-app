@@ -59,14 +59,13 @@ class NotificationPlugin {
   Future<void> showNotification(
       {required int id, required String title, required String body}) async {
     var androidChannelSpecifics = AndroidNotificationDetails(
-        'your channel  ', 'your channel  ',
-        channelDescription: 'your channel ',
-        importance: Importance.max,
-        priority: Priority.max,
+        'your channels', 'your channels',
+        channelDescription: 'your channels',
+        importance: Importance.high,
+        priority: Priority.high,
         playSound: true,
-        sound: RawResourceAndroidNotificationSound('sound'),
-        icon: "app_icons",
-        ticker: 'ticker');
+        sound: RawResourceAndroidNotificationSound('soundss'),
+        icon: "app_icons");
 
     var iosChannelSpecifics = DarwinNotificationDetails(
       categoryIdentifier: 'plainCategory',
