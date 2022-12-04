@@ -86,8 +86,14 @@ class NotificationPlugin {
       required DateTime date}) async {
     var scheduledNotificationDateTime = date;
 
-    var androidPlatformChannelSpecifics = AndroidNotificationDetails(
-        'your other channel id', 'your other channel name');
+    var androidPlatformChannelSpecifics =AndroidNotificationDetails(
+        'your channels', 'your channels',
+        channelDescription: 'your channels',
+        importance: Importance.high,
+        priority: Priority.high,
+        playSound: true,
+        sound: RawResourceAndroidNotificationSound('soundss'),
+        icon: "app_icons");
     var iOSPlatformChannelSpecifics = DarwinNotificationDetails(
       categoryIdentifier: 'plainCategory',
     );
@@ -102,6 +108,8 @@ class NotificationPlugin {
   Future<void> removeNotifications() async {
     await localNotificationsPlugin.cancelAll();
   }
+
+
 
 }
 
