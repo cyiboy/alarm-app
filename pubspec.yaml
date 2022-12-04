@@ -48,13 +48,7 @@ dependencies:
   flutter_launcher_icons: ^0.11.0
   url_launcher: ^6.1.7
   firebase_crashlytics: ^3.0.6
-  audioplayers: ^1.1.1
-  vibration: ^1.7.6
-  flutter_native_timezone: ^2.0.0
-  timezone: ^0.9.0
-  flutter_local_notifications_platform_interface: ^6.0.0
-  android_alarm_manager: ^0.4.5+17
-  rxdart: ^0.27.7
+
 
 dev_dependencies:
   flutter_test:
