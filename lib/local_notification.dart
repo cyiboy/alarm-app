@@ -87,10 +87,10 @@ class NotificationPlugin {
     var scheduledNotificationDateTime = date;
 
     var androidPlatformChannelSpecifics =AndroidNotificationDetails(
-        'your channels', 'your channels',
-        channelDescription: 'your channels',
-        importance: Importance.high,
-        priority: Priority.high,
+        'your order channels', 'your order channels',
+        channelDescription: 'your order channels',
+        importance: Importance.max,
+        priority: Priority.max,
         playSound: true,
         sound: RawResourceAndroidNotificationSound('soundss'),
         icon: "app_icons");
