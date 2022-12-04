@@ -64,67 +64,67 @@ bool loadingPost = false;
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: (){
-          showModalBottomSheet<void>(
-              context: context,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20.0),
-              ),
-              backgroundColor: Colors.white,
-              builder: (BuildContext context) {
-                return Container(
-                  padding: EdgeInsets.all(15),
-                  height: 500,
-                  child: Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          'Create New Newsfeeds...',
-                          style: TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.black),
-                        ),
-                        Space.Y(20),
-                        Input(hint: 'Heading',
-                        controller: heading,
-                        type: InputType.text,),
-                        Space.Y(20),
-                        Input.multi(
-                          hint: "what on your Mind",
-                          controller: body,
-                          type: InputType.text,
-
-                            lines: 7,
-                        ),
-                        Space.Y(20),
-                        Padding(
-                          padding: const EdgeInsets.all(20.0),
-                          child: Column(
-                            children: [
-                              Press.bold('Post',
-                                loading: loading,
-                                onPressed: (){
-                                createPost();
-                              },
-
-                              )
-                            ],
-                          ),
-                        ),
-
-                      ],
-                    ),
-                  ),
-                );
-              });
-        },
-        backgroundColor: Colors.black,
-        child: Icon(Icons.add, color: Colors.white,),
-      ),
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: (){
+      //     showModalBottomSheet<void>(
+      //         context: context,
+      //         shape: RoundedRectangleBorder(
+      //           borderRadius: BorderRadius.circular(20.0),
+      //         ),
+      //         backgroundColor: Colors.white,
+      //         builder: (BuildContext context) {
+      //           return Container(
+      //             padding: EdgeInsets.all(15),
+      //             height: 500,
+      //             child: Center(
+      //               child: Column(
+      //                 mainAxisAlignment: MainAxisAlignment.start,
+      //                 crossAxisAlignment: CrossAxisAlignment.start,
+      //                 children: <Widget>[
+      //                   Text(
+      //                     'Create New Newsfeeds...',
+      //                     style: TextStyle(
+      //                         fontSize: 15,
+      //                         fontWeight: FontWeight.w600,
+      //                         color: Colors.black),
+      //                   ),
+      //                   Space.Y(20),
+      //                   Input(hint: 'Heading',
+      //                   controller: heading,
+      //                   type: InputType.text,),
+      //                   Space.Y(20),
+      //                   Input.multi(
+      //                     hint: "what on your Mind",
+      //                     controller: body,
+      //                     type: InputType.text,
+      //
+      //                       lines: 7,
+      //                   ),
+      //                   Space.Y(20),
+      //                   Padding(
+      //                     padding: const EdgeInsets.all(20.0),
+      //                     child: Column(
+      //                       children: [
+      //                         Press.bold('Post',
+      //                           loading: loading,
+      //                           onPressed: (){
+      //                           createPost();
+      //                         },
+      //
+      //                         )
+      //                       ],
+      //                     ),
+      //                   ),
+      //
+      //                 ],
+      //               ),
+      //             ),
+      //           );
+      //         });
+      //   },
+      //   backgroundColor: Colors.black,
+      //   child: Icon(Icons.add, color: Colors.white,),
+      // ),
     );
   }
 
