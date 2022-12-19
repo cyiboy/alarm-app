@@ -15,6 +15,7 @@ import '../../widget/botton.dart';
 import '../../widget/datepicker.dart';
 import '../../widget/input.dart';
 import '../../widget/space.dart';
+import 'controller/home_controller.dart';
 
 class CreatePlan extends StatefulWidget {
   const CreatePlan({Key? key}) : super(key: key);
@@ -71,6 +72,7 @@ class _CreatePlanState extends State<CreatePlan> {
 
   @override
   Widget build(BuildContext context) {
+    var homeCtr = Get.find<HomeController>();
     return Scaffold(
         appBar: AppBar(
           title: Text('Create Plan'),
@@ -88,6 +90,7 @@ class _CreatePlanState extends State<CreatePlan> {
                       desc: des.text,
                       date: datelist,
                       time: time);
+                  homeCtr.addToBox(reminder);
 
                   for (var element in datelist) {
                     for (var time in time) {
@@ -118,14 +121,14 @@ class _CreatePlanState extends State<CreatePlan> {
               Space.Y(20),
               Input(
                 label: 'Name of Medicine',
-                type: InputType.text,
+                type: InputType.email,
                 controller: medicine,
                 validator: (v) => v!.isNotEmpty ? null : "  cannot be blank",
               ),
               Space.Y(20),
               Input.multi(
                 label: 'Description ',
-                type: InputType.text,
+                type: InputType.email,
                 lines: 2,
                 controller: des,
                 validator: (v) => v!.isNotEmpty ? null : " cannot be blank",
