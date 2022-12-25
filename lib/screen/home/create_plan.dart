@@ -81,9 +81,12 @@ class _CreatePlanState extends State<CreatePlan> {
               icon: const Icon(Icons.create_new_folder_outlined),
               tooltip: 'Open shopping cart',
               onPressed: () async {
-                if (medicine.text == "" || des.text == "" || time.isEmpty) {
+                if (medicine.text == "" ||
+                    des.text == "" ||
+                    time.isEmpty ||
+                    datelist.isEmpty) {
                   Get.snackbar(
-                      "Incomplete Information", "Provide all information");
+                      "Incomplete Information", "Provide all information or ");
                 } else {
                   reminder = Reminder(
                       title: medicine.text,
@@ -137,8 +140,6 @@ class _CreatePlanState extends State<CreatePlan> {
               SfDateRangePicker(
                 onSelectionChanged: _onSelectionChanged,
                 selectionMode: DateRangePickerSelectionMode.range,
-                initialSelectedRange: PickerDateRange(DateTime.now(),
-                    DateTime.now().add(const Duration(days: 3))),
               ),
               Space.Y(20),
               Text(

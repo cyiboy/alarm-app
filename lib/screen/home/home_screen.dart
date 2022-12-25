@@ -184,11 +184,7 @@ class ToTakeContainer extends StatelessWidget {
         child: Theme(
             data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
             child: GestureDetector(
-              onTap: () {
-                if (kDebugMode) {
-                  print(reminder.date!.length);
-                }
-              },
+              onTap: () {},
               child: ExpansionTile(
                   leading: const Icon(Icons.medical_services),
                   title: Column(
@@ -222,8 +218,6 @@ class ToTakeContainer extends StatelessWidget {
                         shrinkWrap: true,
                         itemCount: reminder.date?.length,
                         itemBuilder: (context, index) {
-                          DateTime date = reminder.date?[index];
-
                           return Padding(
                             padding: const EdgeInsets.only(bottom: 15),
                             child: Column(
@@ -231,7 +225,7 @@ class ToTakeContainer extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  '${date.month}/${date.day}/${date.year}',
+                                  '${reminder.date?[index].month}/${reminder.date?[index].day}/${reminder.date?[index].year}',
                                   style: const TextStyle(
                                       fontSize: 14,
                                       fontWeight: FontWeight.w700,
